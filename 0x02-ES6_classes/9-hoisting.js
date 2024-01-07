@@ -28,13 +28,6 @@ export class StudentHolberton {
     return this.holbertonClass;
   }
 
-  set holbertonClass(value) {
-    if (!(value instanceof HolbertonClass)) {
-      throw new TypeError('holberton class must be of class holberton');
-    }
-    this._holbertonClass = value;
-  }
-
   get fullStudentDescription() {
     return `${this._firstName} ${this._lastName} - ${this._holbertonClass.year} - ${this._holbertonClass.location}`;
   }
