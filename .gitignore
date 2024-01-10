@@ -18,3 +18,4 @@ package-lock.json
 babel.config.js
 0x02-ES6_classes/*-main.js
 0x01-ES6_promise/*-main.js
+0x03-ES6_data_manipulation/*-main.js
