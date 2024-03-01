@@ -1,37 +1,36 @@
-import { readDatabase } from '../utils';
+const readDatabase = require('../utils');
 
 class StudentsController {
-  static getAllStudents(req, res) {
+  static getAllStudents(request, response) {
     readDatabase(process.argv[2])
       .then((data) => {
-        res
-          .status(200)
-          .send(
-            `This is the list of our students\nNumber of students in CS: ${
-              data.CS.length
-            }. List: ${data.CS.join(', ')}\nNumber of students in SWE: ${
-              data.SWE.length
-            }. List: ${data.SWE.join(', ')}`,
-          );
+        let result = 'This is the list of our students';
+        const sortedData = Object.keys(data).sort();
+        console.log(sortedData);
+        for (const field of sortedData) {
+          const nameLen = data[field].length;
+          const names = data[field].join(', ');
+          result += `\nNumber of students in ${field}: ${nameLen}. List: ${names}`;
+        }
+        response.status(200).send(result);
       })
-      .catch((err) => {
-        res.status(500).send(err.error);
+      .catch(() => {
+        response.status(500).send('Cannot load the database');
       });
   }
 
-  static getAllStudentsByMajor(req, res) {
+  static getAllStudentsByMajor(request, response) {
+    const { major } = request.params;
+    if ((major !== 'CS') && (major !== 'SWE')) response.status(500).send('Major parameter must be CS or SWE');
+
     readDatabase(process.argv[2])
       .then((data) => {
-        if (data[req.params.major]) {
-          res.status(200).send(`List: ${data[req.params.major].join(', ')}`);
-        } else {
-          res.status(500).send('Major parameter must be CS or SWE');
-        }
+        const names = data[major].join(', ');
+        response.status(200).send(`List: ${names}`);
       })
-      .catch((err) => {
-        res.status(500).send(err.error);
+      .catch(() => {
+        response.status(500).send('Cannot load the database');
       });
   }
 }
-
 module.exports = StudentsController;
