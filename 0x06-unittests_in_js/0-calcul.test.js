@@ -1,13 +1,17 @@
-const calculateNumber = require('./0-calcul');
 const assert = require('assert');
+const calculateNumber = require('./0-calcul');
 
-describe('calculateNumber', () => {
-	it('Should round a and b and return the sum of it', () => {
-		assert.strictEqual(calculateNumber(-1, -2.7), -4);
-	});
+describe('test calculateNumber', () => {
+  it('should return the sum of two numbers', () => {
+    assert.strictEqual(calculateNumber(1.1, 1.1), 2);
+  });
 
-	it('Should round a and b and return the sum of it', () => {
-		assert.strictEqual(calculateNumber(-1.7, -2), -4);
-	});
+  it('should return a negative sum', () => {
+    assert.strictEqual(calculateNumber(-1.1, -1.1), -2);
+  });
+
+  it('should handle zero', () => {
+    assert.strictEqual(calculateNumber(1.1, 0), 1);
+  });
 });
 
